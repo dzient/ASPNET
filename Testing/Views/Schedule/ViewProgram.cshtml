@@ -1,0 +1,37 @@
+﻿@model Schedule
+
+<h3>@Model.ProgramName Information</h3>
+
+<div style="display: block">
+    <a href="/Schedule/InsertProgram/">Add a new program</a>
+</div>
+&nbsp;&nbsp;&nbsp;
+
+<table class="table">
+    <tr>
+        <th>Schedule ID</th>
+        <th>Program Name</th>
+        <th>URL</th>
+        <th>Day</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Repeating?</th>
+        <th>Shoutcast?</th>
+        <th>Status</th>
+    </tr>
+    <tr>
+        <td>@Model.ScheduleID</td>
+        <td>@Model.ProgramName</td>
+        <td>@Model.URL</td>
+        <td>@Model.daystr</td>
+        <td>@Model.starttime</td>
+        <td>@Model.endtime</td>
+        <td>@Model.Repeating</td>
+        <td>@Model.Shoutcast</td>
+        <td>@Model.Status</td>
+    </tr>
+ </table>
+
+ <div style="display:block">
+     <a href="/Schedule/UpdateProgram/@Model.ScheduleID">Update This Program</a>
+ </div>

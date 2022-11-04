@@ -1,0 +1,149 @@
+﻿@model Schedule
+
+<h2>Add a new program</h2>
+&nbsp;&nbsp;&nbsp;
+@foreach (var v in Model.Recstatus)
+{
+    <table>
+        <tr>
+        <td cellpadding="25">
+           Last modified: @v.LastMod
+        </td>
+        </tr>
+    </table>
+}
+
+
+@using (Html.BeginForm("InsertProgramToDatabase", "Schedule", "Post"))
+{
+    <input asp-for="ScheduleID" type="hidden" value="@Model.ScheduleID" />
+    <table>
+        <tr>
+        <td width="400px">
+    <label asp-for="ProgramName" class="control-label">Program Name</label>
+   
+
+    <input type="text" name="ProgramName" class="form-control" value="" />
+
+     </td>
+     </tr>
+    </table>
+    <table>
+        <tr>
+        <td width="400px">
+    <label asp-for="URL" class="control-label">URL</label>
+
+    <input type="text" name="url" class="form-control" value="" />
+    </td>
+    </tr>
+    </table>
+    
+    <label asp-for="Day" class="control-label">Day</label>
+
+    <table>
+        <tr>
+        <td>
+            <label asp-for="Sunday" class="control-label">Sunday</label>
+             <input type="checkbox" asp-for="Sunday" class="form-control" />
+        </td>
+        <td>
+            <label asp-for="Monday" class="control-label">Monday</label>
+             <input type="checkbox" asp-for="Monday" class="form-control" />
+        </td>
+        <td>
+            <label asp-for="Tuesday" class="control-label">Tuesday</label>
+             <input type="checkbox" asp-for="Tuesday" class="form-control" />
+        </td>
+        <td>
+            <label asp-for="Wednesday" class="control-label">Wednesday</label>
+             <input type="checkbox" asp-for="Wednesday" class="form-control" />
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <label asp-for="Thursday" class="control-label">Thursday</label>
+             <input type="checkbox" asp-for="Thursday" class="form-control" />
+        </td>
+        <td>
+            <label asp-for="Friday" class="control-label">Friday</label>
+             <input type="checkbox" asp-for="Friday" class="form-control" />
+        </td>
+        <td>
+            <label asp-for="Saturday" class="control-label">Saturday</label>
+             <input type="checkbox" asp-for="Saturday" class="form-control" />
+        </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+    <td>
+    <label asp-for="StartTimeHour" class="control-label">Start Hour</label>
+
+    <input type="number" min="0" max="60" name="StartTimeHour" class="form-control" value="" />
+    </td>
+    <td>
+    <label asp-for="StartTimePM" class="control-label">PM</label>
+    <input type="checkbox" asp-for="StartTimePM" class="form-control" />
+    </td>
+    </tr>
+    </table>
+    <table>
+        <td>
+    <label asp-for="StartTimeMin" class="control-label">Start Minute</label>
+
+    <input type="number" min="0" max="60" name="StartTimeMin" class="form-control" value="" />
+    </td>
+    </table>
+    <table>
+        <tr>
+    <td>
+    
+    <label asp-for="EndTimeHour" class="control-label">End Hour</label>
+
+    <input type="number" min="0" max="60" name="EndTimeHour" class="form-control" value="" />
+    </td>
+    <td>
+    <label asp-for="EndTimePM" class="control-label">PM</label>
+    <input type="checkbox" asp-for="EndTimePM" class="form-control" />
+    </td>
+    </tr>
+    </table>
+
+    <table>
+        <td>
+    <label asp-for="EndTimeMin" class="control-label">End Minute</label>
+
+    <input type="number" min="0" max="60" name="EndTimeMin" class="form-control" value="" />
+    </td>
+    </table>
+    <table>
+     <td>
+    <label asp-for="Repeating" class="control-label">Repeating?</label>
+
+    <input type="checkbox" asp-for="Repeating" class="form-control" />
+    </td>
+    <td>
+
+    <label asp-for="Shoutcast" class="control-label">Shoutcast?</label>
+
+    <input type="checkbox" asp-for="Shoutcast" class="form-control" />
+    </td>
+    </table>
+    
+
+    <div class="form-group">
+        <label for="">Select a Genre</label>
+        <select class="form-control" name="GenreID" value="">
+            @foreach (var cat in Model.Genres)
+            {
+                <option value="@cat.GenreID">@cat.GenreID @cat.Category</option>
+            }
+        </select>
+    </div>
+    
+    <label asp-for="Password" class="control-label">Password</label>
+
+    <input type="password" name="Password" class="form-control" value="" />
+    
+     <input type="submit" value="Insert Program" class="btn btn-primary" />
+}

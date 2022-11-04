@@ -1,0 +1,47 @@
+﻿@model Schedule
+
+<h2>Add a new program</h2>
+
+
+
+@using (Html.BeginForm("InsertProgramToDatabase", "Schedule", "Post"))
+{
+    
+
+    <label asp-for="URL" class="control-label">Schedule ID</label>
+
+    <input type="text" name="ScheduleID" class="form-control" value="@Model.ScheduleID" />
+
+    <label asp-for="ProgramName" class="control-label">Program Name</label>
+
+    <input type="text" name="ProgramName" class="form-control" value="" />
+
+    <label asp-for="URL" class="control-label">URL</label>
+
+    <input type="text" name="url" class="form-control" value="" />
+
+    
+    <label asp-for="Day" class="control-label">Day</label>
+
+    <input type="number" name="Day" class="form-control" value="" />
+
+    <label asp-for="StartTimeHour" class="control-label">Start Hour</label>
+
+    <input type="number" name="StartTimeHour" class="form-control" value="" />
+
+    <label asp-for="StartTimeMin" class="control-label">Start Minute</label>
+
+    <input type="number" name="StartTimeMin" class="form-control" value="" />
+
+    <label asp-for="EndTimeHour" class="control-label">End Hour</label>
+
+    <input type="number" name="EndTimeHour" class="form-control" value="" />
+
+    <label asp-for="EndTimeMin" class="control-label">End Minute</label>
+
+    <input type="number" name="EndTimeMin" class="form-control" value="" />
+
+    <input type="submit" value="Update Program" class="btn btn-primary" />
+    
+
+}

@@ -1,6 +1,6 @@
 using System;
 
-namespace Testing.Models
+namespace SSR.Models
 {
     public class ErrorViewModel
     {

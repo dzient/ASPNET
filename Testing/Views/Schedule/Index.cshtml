@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Schedule>
+
+
+<h2>Schedule</h2><br />
+<br />
+
+<div style="display: block">
+    <a href="/Schedule/InsertProgram/">Create a New Program</a>
+</div>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Schedule ID</th>
+        <th>Program Name</th>
+        <th>URL</th>
+        <th>Day</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Repeating?</th>
+        <th>Shoutcast?</th>
+        <th>Status</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+    @{
+        //for (int i = 0; i < Pages.Views.Schedule.IndexModel.Count; i++)
+        int i = 0;
+        
+        foreach (var program in Model)
+        {
+                                                                    <tr>
+                                                                        <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
+                                                                        <td>@program.ProgramName</td>
+                                                                        <td>@program.URL</td>
+                                                                        <td>@program.daystr</td>
+                                                                        <td>@program.starttime</td>
+                                                                        <td>@program.endtime</td>
+                                                                        <td>@program.Repeating</td>
+                                                                        <td>@program.Shoutcast</td>
+                                                                        <td>@program.Status</td>
+                                                                        
+                                                                        
+                                                                        <td>
+                                                                        <div style="display: block">
+                                                                          @using (Html.BeginForm("DeleteProgram", "Schedule", "Post"))
+                  {
+                                                                              <script language="javascript" type="text/javascript">
+                                                                          function getPassword()
+                                                                         {
+                                                                             var pwd = prompt('Please enter your password:', '');
+                                                                              do {
+                                                                                  if (pwd != null) {
+                                                                                      if (pwd === "@program.Password") {
+                                                                                          document.getElementById('hidPassword').value = pwd;
+                                                                                          return true;
+                                                                                      }
+                                                                                      else
+                                                                                          return false;
+                                                                                  }
+                                                                              } while (pwd == null)
+                                                                
+                                                                          return false;
+                                                                        }
+                                                                           
+                                                                        </script>
+                                    
+                                     
+                                     
+                  }
+                                                                        </div>
+                                                                      
+
+                                                                        <div style="display: block">
+                                                                       
+
+                                                                        <form asp-action="DeleteProgram" asp-controller="Schedule">
+                                                                        
+                                                                           <input type="hidden" name="id" value="@program.ScheduleID" />
+                                                                           <input type="submit" onclick="return getPassword(this.form, ' @program.ProgramName'+ '?')" value="Delete program" />
+                                                                        
+                                                                        </form>
+                                                                        </div>
+
+                                                            
+
+                                               
+                                                        </td>  
+                                                                   
+                                                                          
+                                                                        <td>
+                                                                            <a href="/Schedule/UpdateProgram/@program.ScheduleID">Update</a>
+                                                                            
+                                                                        </td>
+                                                                    </tr>
+            i++;
+        }
+    }
+</table>
+
+<script>
+    function confirmDelete(form, name) {
+        if (confirm('Delete' + name + '?')) {
+            form.submit();
+        }
+    }
+</script>
+
