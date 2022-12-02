@@ -20,23 +20,30 @@ namespace SSR.Models
         public Schedule()
         {
         }
-
+        // A unique identifier:
         public int ScheduleID { get; set; }
+        // Program name + URL; don't forget to parse
         public string ProgramName { get; set; }
         public string URL { get; set; }
+        // The day, represented as a binary #:
         public int Day { get; set; }
 
-        
+        // Start hour and minute:
         public int StartTimeHour { get; set; }
         public int StartTimeMin { get; set; }
+        // End hour and minute:
         public int EndTimeHour { get; set; }
         public int EndTimeMin { get; set; }
+        // Repeating? If not, we can delete:
         public bool Repeating { get; set; }
+        // If true, it is shoutcast; if false, it is Icecast:
         public bool Shoutcast { get; set; }
-
+        // GenreID, which is admittedly superfluous:
         public int GenreID { get; set; }
         // We need to enumerate the genres:
+        // 
         public IEnumerable<Genre> Genres { get; set; }
+        // Also Recstatus:
         public IEnumerable<Recstatus> Recstatus { get; set; }
         // The days of the week is represented as a single
         // variable, but we will represent them here as checkboxes
@@ -58,6 +65,8 @@ namespace SSR.Models
         public string Status { get; set; }
         // And the password:
         public string Password { get; set; }
+        // This is a time/date that gets updated as long as SSR is running:
+        public string lastmod { get; set; }
 
     }
 

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Schedule>
 
-
+<meta http-equiv="refresh" content="30">
 <h2>Schedule</h2><br />
 <br />
 
@@ -8,7 +8,21 @@
     <a href="/Schedule/InsertProgram/">Create a New Program</a>
 </div>
 
-
+<br />
+<br />
+@foreach (var v in Model)
+    {
+    <table>
+        <tr>
+            <td cellpadding="25">
+                Last modified: @v.lastmod
+            </td>
+        </tr>
+    </table>
+    break;
+}
+<br />
+<br />
 <table class="table table-bordered">
     <tr>
         <th>Schedule ID</th>
@@ -29,70 +43,53 @@
         
         foreach (var program in Model)
         {
-                                                                    <tr>
-                                                                        <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
-                                                                        <td>@program.ProgramName</td>
-                                                                        <td>@program.URL</td>
-                                                                        <td>@program.daystr</td>
-                                                                        <td>@program.starttime</td>
-                                                                        <td>@program.endtime</td>
-                                                                        <td>@program.Repeating</td>
-                                                                        <td>@program.Shoutcast</td>
-                                                                        <td>@program.Status</td>
-                                                                        
-                                                                        
-                                                                        <td>
-                                                                        <div style="display: block">
-                                                                          @using (Html.BeginForm("DeleteProgram", "Schedule", "Post"))
+                                                                                                    <tr>
+                                                                                                        <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
+                                                                                                        <td>@program.ProgramName</td>
+                                                                                                        <td>@program.URL</td>
+                                                                                                        <td>@program.daystr</td>
+                                                                                                        <td>@program.starttime</td>
+                                                                                                        <td>@program.endtime</td>
+                                                                                                        <td>@program.Repeating</td>
+                                                                                                        <td>@program.Shoutcast</td>
+                                                                                                        <td>@program.Status</td>
+                                                                                                        
+                                                                                                        
+                                                                                                        <td>
+                                                                                                        <div style="display: block">
+                                                                                                          @using (Html.BeginForm("DeleteProgram", "Schedule", "Post"))
                   {
-                                                                              <script language="javascript" type="text/javascript">
-                                                                          function getPassword()
-                                                                         {
-                                                                             var pwd = prompt('Please enter your password:', '');
-                                                                              do {
-                                                                                  if (pwd != null) {
-                                                                                      if (pwd === "@program.Password") {
-                                                                                          document.getElementById('hidPassword').value = pwd;
-                                                                                          return true;
-                                                                                      }
-                                                                                      else
-                                                                                          return false;
-                                                                                  }
-                                                                              } while (pwd == null)
-                                                                
-                                                                          return false;
-                                                                        }
-                                                                           
-                                                                        </script>
+                                                                                                              
                                     
                                      
                                      
                   }
-                                                                        </div>
-                                                                      
+                                                                                                        </div>
+                                                                                                      
 
-                                                                        <div style="display: block">
-                                                                       
+                                                                                                        <div style="display: block">
+                                                                                                       
 
-                                                                        <form asp-action="DeleteProgram" asp-controller="Schedule">
-                                                                        
-                                                                           <input type="hidden" name="id" value="@program.ScheduleID" />
-                                                                           <input type="submit" onclick="return getPassword(this.form, ' @program.ProgramName'+ '?')" value="Delete program" />
-                                                                        
-                                                                        </form>
-                                                                        </div>
+                                                                                                        <form asp-action="DeleteProgram" asp-controller="Schedule">
+                                                                                                        
+                                                                                                           <input type="hidden" name="id" value="@program.ScheduleID" />
+                                                                                                           <input type="submit" onclick="return getPassword(this.form, ' @program.ProgramName','@program.Password','@program.Status')" value="Delete program" />
+                                                                                                        
+                                                                                                        </form>
+                                                                                                        </div>
 
-                                                            
+                                                                                            
 
-                                               
-                                                        </td>  
-                                                                   
-                                                                          
-                                                                        <td>
-                                                                            <a href="/Schedule/UpdateProgram/@program.ScheduleID">Update</a>
-                                                                            
-                                                                        </td>
-                                                                    </tr>
+                                                                               
+                                                                                        </td>  
+                                                                                                   
+                                                                                                          
+                                                                                                        <td>
+                                                                                                            <a href="/Schedule/UpdateProgram/@program.ScheduleID">Update</a>
+                                                                                                            
+                                                                                                        </td>
+                                                                                                        
+                                                                                                    </tr>
             i++;
         }
     }
@@ -104,5 +101,24 @@
             form.submit();
         }
     }
+function getPassword(form, name, password,status) {
+    if (status === "Recording") 
+    { 
+        alert("Cannot delete a program currently being recorded.");
+        return false;
+    }
+    var pwd = prompt('Please enter your password:', '');
+    do {
+    if (pwd != null) {
+        if (pwd === password) {
+                document.getElementById('hidPassword').value = pwd;
+                 return true;
+         }
+  else
+       return false;
+   }
+ } while (pwd == null);
+}
 </script>
+
 

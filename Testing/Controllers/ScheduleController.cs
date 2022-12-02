@@ -39,6 +39,7 @@ namespace SSR.Controllers
         public IActionResult Index()
         {
             var programs = repo.GetAllPrograms();
+            repo.GetRecstatuses();
         
             return View(programs);
         }
@@ -49,15 +50,24 @@ namespace SSR.Controllers
         // PARAMS: id (integer)
         // RETURNS: IActionResult object containing
         // the program
+        //----------------------------------------------
         public IActionResult ViewProgram(int id)
         {
             var program = repo.GetProgram(id);
 
             return View(program);
         }
-
+        //---------------------------------------------
+        // UpdateProgram
+        // Program takes schedule ID as a parameter
+        // and returns a view to the program
+        // PARAMS: id (integer)
+        // RETURNS: IActionResult object containing
+        // the program
+        //----------------------------------------------
         public IActionResult UpdateProgram(int id)
         {
+            // 
             Schedule program = repo.GetProgram(id);
             program.GenreID = repo.GetGenre(id);
 
@@ -69,6 +79,14 @@ namespace SSR.Controllers
             }
             return View(program);
         }
+        //---------------------------------------------
+        // UpdateProgramToDatabase
+        // Program takes schedule ID as a parameter
+        // and returns the program
+        // PARAMS: id (integer)
+        // RETURNS: IActionResult object containing
+        // the program
+        //----------------------------------------------
         public IActionResult UpdateProgramToDatabase(Schedule program)
         {
             repo.UpdateProgram(program);
@@ -76,20 +94,42 @@ namespace SSR.Controllers
             return RedirectToAction("ViewProgram", new { id = program.ScheduleID });
 
         }
-
+        //---------------------------------------------
+        // InsertProgram
+        // Program takes schedule ID as a parameter
+        // and returns the program
+        // PARAMS: id (integer)
+        // RETURNS: IActionResult object containing
+        // the program
+        //----------------------------------------------
         public IActionResult InsertProgram()
         {
             var program = repo.AssignGenre();
 
             return View(program);
         }
-
+        //---------------------------------------------
+        // InsertProgramToDatabase
+        // Program takes schedule as a parameter
+        // and returns index
+        // PARAMS: id (integer)
+        // RETURNS: IActionResult object containing
+        // the index
+        //----------------------------------------------
         public IActionResult InsertProgramToDatabase(Schedule programToInsert)
         {
             repo.InsertProgram(programToInsert);
 
             return RedirectToAction("Index");
         }
+        //------------------------------------------------
+        // DeleteProgram
+        // Program takes an id representing the ScheduleID
+        // and deletes the record
+        // PARMS: id (integer)
+        // RETURNS: IActionResult object containing the
+        // index
+        //------------------------------------------------
         public IActionResult DeleteProgram(int id) //Schedule program)
         {
             repo.DeleteProgram(id); // program);

@@ -1,4 +1,14 @@
-﻿using Dapper;
+﻿//============================================
+// David Zientara
+// 11-25-2022
+// ASP.NET application to add a web interface 
+// to my stream recorder 
+//
+// RecstatusRepository.cs
+// Retrieves data from Recstatus
+//--------------------------------------------
+
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Data;

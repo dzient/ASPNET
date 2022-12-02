@@ -1,9 +1,12 @@
-﻿//========================================
+﻿//===========================================
 // David Zientara
 // 10-5-2022
 // ASP.NET application to add a web interface 
 // to my stream recorder 
-//
+// ScheduleRepository.cs
+// This retrieves data from the Schedule
+// table
+//--------------------------------------------
 
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
@@ -169,7 +172,7 @@ namespace SSR.Models
         public void UpdateTime(Schedule program)
         {
             if (program.StartTimePM && program.StartTimeHour == 0)
-                program.starttime +=  "12:";
+                program.starttime += "12:";
             else
                 program.starttime += program.StartTimeHour.ToString() + ":";
             if (program.StartTimeMin < 10)
@@ -220,14 +223,14 @@ namespace SSR.Models
             program.Day = GetIntVal(program.Sunday) | (GetIntVal(program.Monday) * 2) | (GetIntVal(program.Tuesday) * 4) | (GetIntVal(program.Wednesday) * 8) | (GetIntVal(program.Thursday) * 16) | (GetIntVal(program.Friday) * 32) | (GetIntVal(program.Saturday) * 64);
             program.daystr = GetDayStr(program);
             UpdateTime(program);
-            
-            
+
+
             conn.Execute("UPDATE schedule SET ProgramName = @name, URL = @URL, Day = @Day, daystr = @daystr, StartTimeHour = @StartTimeHour, StartTimeMin = @StartTimeMin, EndTimeHour = @EndTimeHour, EndTimeMin=@EndTimeMin, Repeating = @Repeating, Shoutcast = @Shoutcast, Genre = @Genre, Password = @Password, Starttime = @Starttime, Endtime=@Endtime WHERE ScheduleID = @id",
 
-                new { id = program.ScheduleID, name = program.ProgramName, URL = program.URL, Day = program.Day, daystr = program.daystr,StartTimeHour = program.StartTimeHour,
-                StartTimeMin = program.StartTimeMin, EndTimeHour = program.EndTimeHour, EndTimeMin = program.EndTimeMin,
-                Repeating = program.Repeating, Shoutcast = program.Shoutcast, Genre = program.GenreID, Password = program.Password,
-                Starttime = program.starttime, Endtime = program.endtime});
+                new { id = program.ScheduleID, name = program.ProgramName, URL = program.URL, Day = program.Day, daystr = program.daystr, StartTimeHour = program.StartTimeHour,
+                    StartTimeMin = program.StartTimeMin, EndTimeHour = program.EndTimeHour, EndTimeMin = program.EndTimeMin,
+                    Repeating = program.Repeating, Shoutcast = program.Shoutcast, Genre = program.GenreID, Password = program.Password,
+                    Starttime = program.starttime, Endtime = program.endtime });
         }
         //----------------------------------------------------
         // InsertProgram
@@ -249,19 +252,39 @@ namespace SSR.Models
             program.endtime = "";
 
             UpdateTime(program);
-            
 
-            conn.Execute("INSERT INTO schedule (PROGRAMNAME, URL, DAY, DAYSTR, STARTTIMEHOUR,STARTTIMEMIN,ENDTIMEHOUR,ENDTIMEMIN,REPEATING,SHOUTCAST,GENRE,STATUS,PASSWORD,STARTTIME,ENDTIME) " +
-                "VALUES (@name, @URL,@day,@daystr,@starttimehour,@starttimemin,@endtimehour,@endtimemin,@repeating,@shoutcast,@genre,@status,@password,@starttime,@endtime);",
-                new { name = program.ProgramName, URL = program.URL, day = program.Day, daystr=program.daystr, starttimehour = program.StartTimeHour, 
-                    starttimemin = program.StartTimeMin, endtimehour = program.EndTimeHour, endtimemin = program.EndTimeMin,
-                    repeating = program.Repeating, shoutcast = program.Shoutcast, genre = program.GenreID, status="Queued",
-                    password=program.Password,starttime=program.starttime,endtime=program.endtime});
+
+            conn.Execute("INSERT INTO schedule (PROGRAMNAME, URL, DAY, DAYSTR, STARTTIMEHOUR,STARTTIMEMIN,ENDTIMEHOUR,ENDTIMEMIN,REPEATING,SHOUTCAST,GENRE,STATUS,PASSWORD,STARTTIME,ENDTIME,TIMEOUT,LASTMOD) " +
+                "VALUES (@name, @URL,@day,@daystr,@starttimehour,@starttimemin,@endtimehour,@endtimemin,@repeating,@shoutcast,@genre,@status,@password,@starttime,@endtime,@timeout,@lastmod);",
+                new
+                {
+                    name = program.ProgramName,
+                    URL = program.URL,
+                    day = program.Day,
+                    daystr = program.daystr,
+                    starttimehour = program.StartTimeHour,
+                    starttimemin = program.StartTimeMin,
+                    endtimehour = program.EndTimeHour,
+                    endtimemin = program.EndTimeMin,
+                    repeating = program.Repeating,
+                    shoutcast = program.Shoutcast,
+                    genre = program.GenreID,
+                    status = "Queued",
+                    password = program.Password,
+                    starttime = program.starttime,
+                    endtime = program.endtime,
+                    timeout = 30,
+                    lastmod = "1-1-1980 00:00:00"
+                });
         }
 
         public IEnumerable<Genre> GetGenres()
         {
             return conn.Query<Genre>("SELECT * FROM GENRE;");
+        }
+        public IEnumerable<Recstatus> GetRecstatuses()
+        {
+            return conn.Query<Recstatus>("SELECT * FROM RECSTATUS;");
         }
         public Schedule AssignGenre()
         {
@@ -279,11 +302,7 @@ namespace SSR.Models
         {
             conn.Execute("DELETE FROM SCHEDULE WHERE ScheduleID = @id; ", new { id = id }); // program.ScheduleID });
         }
-        public IEnumerable<Recstatus> GetRecstatuses()
-        {
-            return conn.Query<Recstatus>("SELECT * FROM RECSTATUS;");
-        }
-
+        
 
 
     }

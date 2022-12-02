@@ -1,4 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//============================================
+// David Zientara
+// 11-25-2022
+// ASP.NET application to add a web interface 
+// to my stream recorder 
+//
+// RecstatusController.cs
+// This code allows the user to view the data
+// in Recstatus
+//--------------------------------------------
+
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using SSR.Models;
 

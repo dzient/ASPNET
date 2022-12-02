@@ -1,4 +1,14 @@
-﻿using System;
+﻿//===========================================
+// David Zientara
+// 10-5-2022
+// ASP.NET application to add a web interface 
+// to my stream recorder 
+// HomeController.cs
+// This logs error data, which can be helpful
+// if things go wrong
+//--------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

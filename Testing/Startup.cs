@@ -1,3 +1,13 @@
+//============================================
+// David Zientara
+// 11-25-2022
+// ASP.NET application to add a web interface 
+// to my stream recorder 
+//
+// Startup.cs
+// Startup class for ASP
+//--------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Data;
