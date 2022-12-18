@@ -2,16 +2,7 @@
 
 <h2>Add a new program</h2>
 &nbsp;&nbsp;&nbsp;
-@foreach (var v in Model.Recstatus)
-{
-    <table>
-        <tr>
-        <td cellpadding="25">
-           Last modified: @v.LastMod
-        </td>
-        </tr>
-    </table>
-}
+
 
 
 @using (Html.BeginForm("InsertProgramToDatabase", "Schedule", "Post"))

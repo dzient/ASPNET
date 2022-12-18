@@ -277,27 +277,63 @@ namespace SSR.Models
                     lastmod = "1-1-1980 00:00:00"
                 });
         }
-
+        //----------------------------------------------------
+        // GetGenres
+        // Function invokes an SQL query that returns all genres
+        // PARAMS: None
+        // RETURNS: IEnumerable object
+        //-----------------------------------------------------
         public IEnumerable<Genre> GetGenres()
         {
             return conn.Query<Genre>("SELECT * FROM GENRE;");
         }
+        //----------------------------------------------------
+        // GetRecstatuses
+        // Function invokes an SQL query that returns all 
+        // recording statuses
+        // PARAMS: None
+        // RETURNS: IEnumerable object
+        //----------------------------------------------------
         public IEnumerable<Recstatus> GetRecstatuses()
         {
             return conn.Query<Recstatus>("SELECT * FROM RECSTATUS;");
         }
+        //----------------------------------------------------
+        // AssignGenre
+        // Function assigns genres to program
+        // PARAMS: None
+        // RETURNS: Schedule object
+        //----------------------------------------------------
         public Schedule AssignGenre()
         {
             var categoryList = GetGenres();
-            var statusList = GetRecstatuses();
             var program = new Schedule();
            
             program.Genres = categoryList;
-            program.Recstatus = statusList;
 
             return program;
         }
+        //----------------------------------------------------
+        // AssignStatus
+        // Function assigns Recstatuses to program
+        // PARAMS: None
+        // RETURNS: Schedule object
+        //----------------------------------------------------
+        public Schedule AssignStatus()
+        {
+            var program = new Schedule();
+            var statusList = GetRecstatuses();
 
+            program.Recstatus = statusList;
+            return program;
+        }
+        //-----------------------------------------------------
+        // DeleteProgram
+        // Function invokes SQL command to delete a program
+        // whose schedule_id == id
+        // PARAMS: id (int)
+        // RETURNS: Nothing; record is deleted
+        //------------------------------------------------------
         public void DeleteProgram(int id) //Schedule program)
         {
             conn.Execute("DELETE FROM SCHEDULE WHERE ScheduleID = @id; ", new { id = id }); // program.ScheduleID });

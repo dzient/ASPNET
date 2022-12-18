@@ -38,87 +38,122 @@
         <th>Update</th>
     </tr>
     @{
-        //for (int i = 0; i < Pages.Views.Schedule.IndexModel.Count; i++)
-        int i = 0;
-        
         foreach (var program in Model)
         {
-                                                                                                    <tr>
-                                                                                                        <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
-                                                                                                        <td>@program.ProgramName</td>
-                                                                                                        <td>@program.URL</td>
-                                                                                                        <td>@program.daystr</td>
-                                                                                                        <td>@program.starttime</td>
-                                                                                                        <td>@program.endtime</td>
-                                                                                                        <td>@program.Repeating</td>
-                                                                                                        <td>@program.Shoutcast</td>
-                                                                                                        <td>@program.Status</td>
-                                                                                                        
-                                                                                                        
-                                                                                                        <td>
-                                                                                                        <div style="display: block">
-                                                                                                          @using (Html.BeginForm("DeleteProgram", "Schedule", "Post"))
-                  {
-                                                                                                              
-                                    
-                                     
-                                     
-                  }
-                                                                                                        </div>
-                                                                                                      
-
-                                                                                                        <div style="display: block">
-                                                                                                       
-
-                                                                                                        <form asp-action="DeleteProgram" asp-controller="Schedule">
-                                                                                                        
-                                                                                                           <input type="hidden" name="id" value="@program.ScheduleID" />
-                                                                                                           <input type="submit" onclick="return getPassword(this.form, ' @program.ProgramName','@program.Password','@program.Status')" value="Delete program" />
-                                                                                                        
-                                                                                                        </form>
-                                                                                                        </div>
-
-                                                                                            
-
-                                                                               
-                                                                                        </td>  
-                                                                                                   
-                                                                                                          
-                                                                                                        <td>
-                                                                                                            <a href="/Schedule/UpdateProgram/@program.ScheduleID">Update</a>
-                                                                                                            
-                                                                                                        </td>
-                                                                                                        
-                                                                                                    </tr>
-            i++;
-        }
-    }
-</table>
-
-<script> 
-    function confirmDelete(form, name) {
-        if (confirm('Delete' + name + '?')) {
-            form.submit();
-        }
-    }
-function getPassword(form, name, password,status) {
-    if (status === "Recording") 
-    { 
-        alert("Cannot delete a program currently being recorded.");
-        return false;
-    }
-    var pwd = prompt('Please enter your password:', '');
-    do {
-    if (pwd != null) {
-        if (pwd === password) {
-                document.getElementById('hidPassword').value = pwd;
-                 return true;
+                                                <tr>
+                                                <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
+                                                                <td>@program.ProgramName</td>
+                                                                <td>@program.URL</td>
+                                                                <td>@program.daystr</td>
+                                                                <td>@program.starttime</td>
+                                                                        
+                                                                <td>@program.endtime</td>
+                                                                <td>@program.Repeating</td>
+                                                                <td>@program.Shoutcast</td>
+                                                                <td>@program.Status</td>
+                                                                <td>
+                                                                   <div style="display: block">
+                                                                   </div>
+                                                                    <div style="display: block">
+                                                                        <form asp-action="DeleteProgram" asp-controller="Schedule">
+                                                                                                                       
+                                                                            <input type="hidden" name="id" value="@program.ScheduleID" />
+                                                                            <input type="submit" onclick="return validate(this.form,'@program.Password','@program.Status')" value="Delete program" />                                                                                                                                                   
+                                                                         </form>
+                                                                     </div>
+                                                                 </td>                        
+                                                                 <td><a href="/Schedule/ViewProgram/@program.ScheduleID">Update</a></td>
+                                                </tr>
          }
-  else
-       return false;
+     }
+     </table>
+<h3>Programs currently being recorded:</h3><br />
+     <table class="table table-bordered">
+        <tr>
+            <th>Schedule ID</th>
+            <th>Program Name</th>
+            <th>URL</th>
+            <th>Day</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Repeating?</th>
+            <th>Shoutcast?</th>
+            <th>Delete</th>
+            <th>Update</th>
+        </tr>
+    @{
+      foreach (var program in Model)
+      {
+           if (program.Status == "Recording")
+          {
+                                      <tr>
+                                   <td><a href="/Schedule/ViewProgram/@program.ScheduleID">@program.ScheduleID</a></td>
+                                   <td>@program.ProgramName</td>
+                                   <td>@program.URL</td>
+                                   <td>@program.daystr</td>
+                                   <td>@program.starttime</td>                         
+                                   <td>@program.endtime</td>
+                                   <td>@program.Repeating</td>
+                                   <td>@program.Shoutcast</td>
+                                   <td>
+                                      <div style="display: block">
+                                        </div>
+                                       <div style="display: block">
+                                                            
+                                            <form asp-action="DeleteProgram" asp-controller="Schedule">                                         
+                                                 <input type="hidden" name="id" value="@program.ScheduleID" />
+                                                 <input type="submit" onclick="return validate(this.form,'@program.Password','@program.Status')" value="Delete program" />                                                                                                                                                                              
+                                            </form>
+                                        </div>
+                                    </td>                        
+                                    <td><a href="/Schedule/ViewProgram/@program.ScheduleID">Update</a></td>
+                                    </tr>
+           }
+                                
+       }
    }
- } while (pwd == null);
-}
+ </table>
+ <script> 
+     function confirmDelete(form, name) {
+        if (confirm('Delete' + name + '?')) {
+        form.submit();
+        }
+     }
+     function recorded(form, status) {
+        // Find out if status is Recording; it's all 
+        // we know 
+        if (status === "Recording") 
+        { 
+            alert("Cannot delete a program currently being recorded.");
+            return true;
+        }
+        return false;
+     }
+     function getPassword(form, password) {
+        // Find out if password entered by the user equals
+        // the password entered when the program was added
+        var pwd = prompt('Please enter your password:', '');
+        do {
+            if (pwd != null) {
+                if (pwd === password) { 
+                // If passwords are equal, we can delete the program
+                document.getElementById('hidPassword').value = pwd;
+                return true;
+            }
+            else
+               return false;
+           }
+        } while (pwd == null); // Keep going if pwd equals null
+      }
+    function validate(form, password,status) {
+       // Before we query user for the password, we must
+       // determine if program is being recorded. If it is,
+       // we return false; if not, query user for password
+       
+       if (recorded(form, status))
+           return false;
+       return getPassword(form,password);     
+    }
 </script>
 
 

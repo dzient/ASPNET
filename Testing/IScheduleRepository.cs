@@ -27,7 +27,9 @@ namespace SSR.Models
         // Get an IEnumerable-derived object listing all genres:
         public IEnumerable<Genre> GetGenres();
         //Assign a genre (this is a kludge):
-        public Schedule AssignGenre();  
+        public Schedule AssignGenre();
+        // Assign a status:
+        public Schedule AssignStatus();
         // Insert a program into the database:
         public void InsertProgram(Schedule programToInsert);
         //Delete a program from the database:

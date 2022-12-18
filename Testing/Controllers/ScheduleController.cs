@@ -105,6 +105,7 @@ namespace SSR.Controllers
         public IActionResult InsertProgram()
         {
             var program = repo.AssignGenre();
+            repo.AssignStatus();
 
             return View(program);
         }

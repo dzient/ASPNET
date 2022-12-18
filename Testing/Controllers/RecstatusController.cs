@@ -18,11 +18,25 @@ namespace SSR.Controllers
     public class RecstatusController : Controller
     {
         private readonly IRecstatusRepository repo;
+        //-------------------------------------------
+        // RecstatusController
+        // Constructor for this class
+        // PARAMS: IRecstatusRepository object
+        // RETURNS: Nothing; class is initialized
+        //
+        //--------------------------------------------
         public RecstatusController(IRecstatusRepository repo)
         {
             this.repo = repo;
         }
-
+        //-----------------------------------------------
+        // ViewLastMod
+        // Function invokes ScheduleRepository::GetLastMod
+        // and calls View for the record
+        // PARAMS: id 
+        // RETURNS: IActionResult object 
+        //
+        //--------------------------------------------
 
         public IActionResult ViewLastmod(int id)
         {
@@ -30,7 +44,14 @@ namespace SSR.Controllers
 
             return View(lastmod);
         }
-
+        //-----------------------------------------------------------
+        // ViewLastMod
+        // Function invokes ScheduleRepository::GetAllRecstatuses
+        // and calls View for the database
+        // PARAMS: id 
+        // RETURNS: IActionResult object 
+        //
+        //--------------------------------------------
 
         public IActionResult Index()
         {
